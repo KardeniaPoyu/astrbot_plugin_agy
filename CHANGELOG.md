@@ -1,16 +1,24 @@
 # Changelog
 
+## v0.3.0
+
+- 进度反馈重做：`progress` 配置
+  - `full`（默认）：给指令消息贴 ⏳ / ✅ / ❌ 表情 + 「输入中」状态，不再刷一条丑丑的「处理中」文字
+  - `text`：保留一条简短「agy 处理中」文字
+  - `silent`：只在完成时回结果
+- 按会话切换模型 / 思考深度：
+  - `/agy model` 列出 `agy models` 的可用模型（缓存 5 分钟），`/agy model <名称>` 切换本会话模型，支持子串模糊匹配，`/agy model default` 恢复默认
+  - `/agy effort low|medium|high|default` 切换本会话思考深度
+  - 会话级设置优先于插件全局配置，存进 `sessions.json`
+- `/agy status` 显示当前模型 / 思考深度
+- 结果末尾时长改为 `⏱ Ns`
+
 ## v0.2.0
 
-- 新增可选 LLM 工具 `agy_task`（`enable_llm_tool`，默认关），让机器人可自主调用 agy；
-  关闭时通过 `deactivate_llm_tool` 确保它不出现在机器人的工具列表里
-- 会话续接更稳：用「本轮前后 conversation .db 快照 diff」定位新建的 conversation id，替代「取最新 .db」
-- `/agy help` 附带当前配置摘要
-- 超长输出写入 `<会话目录>/.agy_last_output.txt` 并在回复中给出路径
-- 新增 `show_stderr` 配置（调试）
-- 启动时检查 `agy_bin` 可用性并给出提示
-- 子进程 `stdin` 显式设为 DEVNULL，避免非交互环境挂起
-- 过滤 agy 的 `warning: conversation "..." not found` 等噪声行
+- 新增可选 LLM 工具 `agy_task`（`enable_llm_tool`，默认关）；关闭时 `deactivate_llm_tool` 确保不占机器人工具位
+- 会话续接更稳：用「本轮前后 conversation .db 快照 diff」定位新建的 conversation id
+- `/agy help` 附当前配置；超长输出写入会话目录 `.agy_last_output.txt`
+- 新增 `show_stderr`；启动检查 `agy_bin`；`stdin=DEVNULL`；过滤 agy 噪声行
 
 ## v0.1.0
 

@@ -42,6 +42,13 @@
     "type": "int",
     "default": 3500
   },
+  "progress": {
+    "description": "进度反馈方式",
+    "type": "string",
+    "default": "full",
+    "options": ["full", "text", "silent"],
+    "hint": "full=给指令消息贴 ⏳/✅ 表情 + 输入中状态（推荐，不刷屏）；text=发一条「处理中」文字；silent=只在完成时回结果"
+  },
   "show_stderr": {
     "description": "回复末尾附带 agy 的 stderr 摘要（调试用）",
     "type": "bool",

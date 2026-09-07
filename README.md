@@ -52,18 +52,24 @@ Docker 部署时在容器内执行：`docker exec -it <astrbot容器> agy`。
 |---|---|
 | `/agy <消息>` | 发给**当前窗口**的会话，没有则自动创建（目录 `workspace_root/default`）|
 | `/agy new [目录名]` | 新建会话，`目录名` 相对 `workspace_root`（省略则 `default`）。下一条消息起用全新上下文 |
-| `/agy status` | 当前会话 id / 目录 / 运行状态（空闲·排队中·运行中）|
+| `/agy model [<名称>]` | 不带参数：列出 `agy models` 的可用模型 + 当前值；带参数：切换**本会话**模型（支持子串模糊匹配）。`/agy model default` 恢复默认 |
+| `/agy effort <档位>` | 切换**本会话**思考深度：`low` / `medium` / `high`（`default` 取消）|
+| `/agy status` | 当前会话 id / 目录 / 模型 / 思考深度 / 运行状态 |
 | `/agy reset` | 清除本窗口的会话绑定（不删目录、不删 agy 历史）|
 | `/agy stop` | 中止本窗口正在跑的一轮 |
-| `/agy help` | 帮助 + 当前配置摘要 |
+| `/agy help` | 帮助 |
+
+会话级的 `model` / `effort` **优先于**插件全局配置，存在 `sessions.json`，重启不丢。
 
 示例：
 
 ```
 /agy new myproj
+/agy model                     # 看有哪些模型
+/agy model claude-opus         # 模糊匹配到 claude-opus-4-6-thinking
+/agy effort high
 /agy 用 Flask 写一个 /health 和 /users 接口，加 requirements.txt
 /agy 给 users 接口加分页
-/agy 跑一下 pytest
 /agy stop
 ```
 
@@ -82,6 +88,10 @@ Docker 部署时在容器内执行：`docker exec -it <astrbot容器> agy`。
       [--model ...] [--effort ...]
   ```
 - **串行**：全局同一时刻只跑一个 `agy`（1 核机器必须如此）。有任务在跑时新消息会提示排队 / 拒绝。
+- **进度反馈**（`progress` 配置）：
+  - `full`（默认）：给你那条指令消息贴 ⏳，跑的时候显示「输入中」，完成贴 ✅（失败 ❌），**不发多余文字**
+  - `text`：发一条简短「agy 处理中」
+  - `silent`：全程安静，只在完成时回结果
 - **输出**：取 `agy` 的 stdout（纯文本）回复到聊天。超过 `max_output` 字符则截断，
   完整内容写入 `<会话目录>/.agy_last_output.txt`。
 - **超时**：由 `agy --print-timeout` 控制，默认 5 分钟，超时该轮被中断。
@@ -95,11 +105,12 @@ Docker 部署时在容器内执行：`docker exec -it <astrbot容器> agy`。
 | `agy_bin` | `agy` | 可执行文件路径。PATH 里有就填 `agy`，否则填绝对路径 |
 | `workspace_root` | `/root/agy-ws` | 会话工作目录的根 |
 | `yolo` | `true` | `--dangerously-skip-permissions`，agy 在工作目录里自动执行不询问 |
-| `model` | 空 | 传 `--model`，留空用 agy 默认 |
-| `effort` | 空 | 传 `--effort`（low/medium/high）|
+| `model` | 空 | 全局默认 `--model`，留空用 agy 默认；可被 `/agy model` 按会话覆盖 |
+| `effort` | 空 | 全局默认 `--effort`（low/medium/high）；可被 `/agy effort` 按会话覆盖 |
 | `timeout` | `5m0s` | 单轮超时，Go 时长格式 |
 | `nice` | `15` | agy 进程 nice 值（0–19）|
 | `max_output` | `3500` | 回复最大字符数 |
+| `progress` | `full` | 进度反馈：`full` 表情+输入中 / `text` 文字 / `silent` 安静 |
 | `show_stderr` | `false` | 回复末尾附 agy stderr 摘要（调试）|
 | `admins_only` | `true` | `/agy` 指令仅管理员 |
 | `extra_add_dir` | 空 | 额外允许 agy 访问的目录，逗号分隔 |
