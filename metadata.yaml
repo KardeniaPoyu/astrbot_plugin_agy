@@ -1,0 +1,26 @@
+name: astrbot_plugin_agy
+display_name: Antigravity CLI
+desc: 轻量对接 Google Antigravity CLI (agy)。收到消息才起进程，跑完即退，空闲零占用；进程用 nice 降优先级，避免拖垮 AstrBot。可选注册为 LLM 工具供机器人自主调用。
+help: |
+  /agy <消息>        发给当前会话（不存在则自动创建）
+  /agy new [目录名]   新建会话（目录相对 workspace_root）
+  /agy status        查看当前会话 / 运行状态
+  /agy reset         清除本窗口的会话绑定
+  /agy stop          中止正在运行的一轮
+  /agy help          帮助 + 当前配置
+version: v0.2.0
+author: KardeniaPoyu
+repo: https://github.com/KardeniaPoyu/astrbot_plugin_agy
+tags:
+  - antigravity
+  - agy
+  - vibecoding
+  - coding-agent
+  - cli
+keywords:
+  - antigravity
+  - agy
+  - gemini
+  - coding
+  - agent
+astrbot_version: ">=4.13.0"

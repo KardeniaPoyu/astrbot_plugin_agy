@@ -1,0 +1,71 @@
+{
+  "agy_bin": {
+    "description": "agy 可执行文件路径",
+    "type": "string",
+    "default": "agy",
+    "hint": "PATH 里能直接调就填 agy；否则填绝对路径，容器内一般是 /root/.local/bin/agy"
+  },
+  "workspace_root": {
+    "description": "agy 会话工作目录的根",
+    "type": "string",
+    "default": "/root/agy-ws",
+    "hint": "每个会话是它下面的一个子目录；agy 默认只被允许操作会话目录（--add-dir）"
+  },
+  "yolo": {
+    "description": "跳过所有权限确认 (--dangerously-skip-permissions)",
+    "type": "bool",
+    "default": true,
+    "hint": "关闭则改用 ~/.gemini/settings.json 里的 allow 规则；headless 下没有 allow 规则的工具调用会被 agy 直接拒绝"
+  },
+  "model": {
+    "description": "模型（留空用 agy 默认）",
+    "type": "string",
+    "default": ""
+  },
+  "effort": {
+    "description": "思考深度 low / medium / high（留空默认）",
+    "type": "string",
+    "default": ""
+  },
+  "timeout": {
+    "description": "单轮超时（Go 时长格式，如 90s / 3m0s / 10m0s）",
+    "type": "string",
+    "default": "5m0s"
+  },
+  "nice": {
+    "description": "agy 进程 nice 值（0-19，越大越让路给 AstrBot）",
+    "type": "int",
+    "default": 15
+  },
+  "max_output": {
+    "description": "回复最大字符数（超出截断，完整输出写入会话目录 .agy_last_output.txt）",
+    "type": "int",
+    "default": 3500
+  },
+  "show_stderr": {
+    "description": "回复末尾附带 agy 的 stderr 摘要（调试用）",
+    "type": "bool",
+    "default": false
+  },
+  "admins_only": {
+    "description": "/agy 指令仅管理员可用",
+    "type": "bool",
+    "default": true
+  },
+  "extra_add_dir": {
+    "description": "额外允许 agy 访问的目录（逗号分隔）",
+    "type": "string",
+    "default": ""
+  },
+  "enable_llm_tool": {
+    "description": "把 agy 注册成 LLM 工具 agy_task，让机器人可自主调用（默认关）",
+    "type": "bool",
+    "default": false,
+    "hint": "开启后机器人对话中判断需要写代码/处理文件时会调用 agy；注意会阻塞该次回复数十秒，1 核机器慎用"
+  },
+  "llm_tool_admin_only": {
+    "description": "agy_task 工具仅在管理员发起的对话中生效",
+    "type": "bool",
+    "default": true
+  }
+}

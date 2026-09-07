@@ -1,0 +1,4 @@
+# 无第三方依赖：只用 Python 标准库 + AstrBot API。
+# agy 本体（Antigravity CLI）需自行安装并登录：
+#   curl -fsSL https://antigravity.google/cli/install.sh | bash
+#   agy            # 交互式完成一次 Google 登录
