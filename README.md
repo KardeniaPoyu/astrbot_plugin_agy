@@ -1,4 +1,12 @@
-# astrbot_plugin_agy — Antigravity CLI 轻量对接
+<p align="center">
+  <img src="logo.png" width="160" alt="Antigravity CLI Logo" />
+</p>
+
+<h1 align="center">astrbot_plugin_agy — Antigravity CLI 轻量对接</h1>
+
+<p align="center">
+  <em>轻量 vibe coding 工具，远程连接 Google Antigravity CLI 以满足低配机器需求</em>
+</p>
 
 在任意聊天平台（QQ / Telegram / 微信…）用一条 `/agy` 指令驱动 Google **Antigravity CLI (`agy`)** 写代码、改代码、跑脚本、分析仓库。
 
