@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.1
+
+- 修复 `/agy` 会顺带触发机器人默认 LLM 回复（因为 `/` 是唤醒前缀）：命令处理时 `should_call_llm(True)` + `stop_event()` 吃掉事件
+
 ## v0.3.0
 
 - 进度反馈重做：`progress` 配置

@@ -42,7 +42,7 @@ _MODELS_TTL = 300
     "astrbot_plugin_agy",
     "KardeniaPoyu",
     "轻量 Antigravity CLI (agy) 对接：收到消息才起进程，跑完即退，空闲零占用",
-    "v0.3.0",
+    "v0.3.1",
     "https://github.com/KardeniaPoyu/astrbot_plugin_agy",
 )
 class AgyPlugin(Star):
@@ -332,6 +332,13 @@ class AgyPlugin(Star):
     # ---------------- 指令 ----------------
     @filter.command("agy")
     async def agy_cmd(self, event: AstrMessageEvent):
+        # /agy 以 wake_prefix "/" 开头会顺带唤醒默认 LLM 链路，
+        # 显式禁用它 + 停止事件传播，避免机器人人格也回一条
+        try:
+            event.should_call_llm(True)
+        except Exception:  # noqa: BLE001
+            pass
+        event.stop_event()
         if self.config.get("admins_only", True) and not event.is_admin():
             yield event.plain_result("仅管理员可用")
             return
